@@ -44,19 +44,20 @@ const MainPage: React.FC = () => {
     return (
         <Container>
             <div className="min-h-screen p-6">
-                <h1 className="text-3xl font-bold mb-4">All Matches</h1>
+                {matches.length > 0 && <h1 className="text-3xl font-bold mb-4">All Matches</h1>}
 
                 <div className="flex flex-col gap-3">
                     {matches.map((match: Match) => {
                         return (
-                            <MatchCard match={match}/>
+                            <MatchCard match={match} key={match.matchId}/>
                         );
                     })}
                 </div>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 mt-5">
+                    {finishedMatches.length > 0 && <h1 className="text-3xl font-bold mb-4">Finished Matches</h1>}
                     {finishedMatches.map((match: Match) => {
                         return (
-                            <MatchCard match={match}/>
+                            <MatchCard match={match} key={match.matchId}/>
                         );
                     })}
                 </div>

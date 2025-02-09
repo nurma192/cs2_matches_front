@@ -23,7 +23,7 @@ function MatchCard({match}:Params) {
             className="bg-secondary text-white shadow-md group rounded p-4 flex items-center cursor-pointer border-3 transition border-transparent hover:border-third"
             onClick={() => handleTODetailsClicked(matchId)}
         >
-            <div className="w-[120px]">
+            <div className="hidden w-[120px] xs:block">
                 <img src={`/images/maps/${MAPS[mapId].image}`} className={"object-cover rounded-sm"}
                      alt="Mirage"/>
             </div>
@@ -44,7 +44,7 @@ function MatchCard({match}:Params) {
                     <h3 className={"text-gray"}>Счёт</h3>
                     <p className="">{`${team1.winRounds}-${team2.winRounds}`}</p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="hidden items-center justify-center gap-2 w-[350px] xl:flex">
                     <div className="">
                         <p className={'text-center text-gray font-bold'}>{team1.name}</p>
                         <div className="flex gap-2">
@@ -64,7 +64,7 @@ function MatchCard({match}:Params) {
                     </div>
                 </div>
                 <div className="">
-                    <p className={'text-sm'}>{formatTimeAgo(match.createdAt)}</p>
+                    <p className={'hidden xs:inline text-[10px] md:text-sm'}>{formatTimeAgo(match.createdAt)}</p>
                 </div>
             </div>
 

@@ -29,7 +29,7 @@ function Layout() {
             : {};
 
     return (
-        <div className="w-full bg-[#10101b] bg-img-inherit" style={style}>
+        <div className="dark text-foreground w-full bg-[#10101b] bg-img-inherit" style={style}>
             <Header />
             <Outlet />
         </div>

@@ -24,6 +24,7 @@ module.exports = {
 				tt: '#bb9746',
 			},
 			screens: {
+				"2xs": '380px',
 				xs: '480px',
 				md: '768px',
 				xl: '1000px',

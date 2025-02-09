@@ -54,6 +54,6 @@ export const WEAPONS: Record<number, Weapon> = {
     11: {
         id: 11,
         name: "SSG-08",
-        svgIcon: "weapon_ssg08",
+        svgIcon: "weapon_ssg08.svg",
     },
 };
