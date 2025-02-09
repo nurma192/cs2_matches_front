@@ -1,11 +1,13 @@
 import {useEffect} from "react";
 import {useParams, Link} from "react-router-dom";
 import {io, type Socket} from "socket.io-client";
-import type {Match} from "../types/types";
+import type {Match, Player} from "../types/types";
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {setMatch, updateMatch} from "../store/matchSlice";
 import type {RootState} from "../store/store";
 import Container from "../components/Container";
+import { Avatar } from "@nextui-org/react";
+import {StatsTable} from "../components/StatsTable";
 
 const MatchPage: React.FC = () => {
     const {id} = useParams();
@@ -63,64 +65,44 @@ const MatchPage: React.FC = () => {
                 </Link>
 
                 <div className="py-4 rounded shadow-md">
-                    <h1 className="text-2xl font-bold mb-4">Match Details</h1>
-                    <p className="mb-2">Match ID: {matchId}</p>
-                    <p className="mb-2">Map ID: {mapId}</p>
-                    <p className="mb-2">Round: {round} | Timer: {timer}</p>
-                    <p className="mb-2">
-                        Score: Team1 ({team1.winRounds}) : Team2 ({team2.winRounds})
-                    </p>
-
-                    <div className="flex flex-col md:flex-row gap-6 mt-6">
-                        <div className="flex-1">
-                            <h2 className="text-xl font-semibold mb-2">
-                                Team1 - {team1.side}
-                            </h2>
-                            <div className="space-y-2">
-                                {team1.players.map((player) => (
-                                    <div
-                                        key={player.id}
-                                        className="border-b pb-2 flex items-center justify-between"
-                                    >
-                                        <div>
-                                            <span className="font-medium">{player.name}</span>{" "}
-                                            {player.dead && (
-                                                <span className="text-red-500 ml-2">DEAD</span>
-                                            )}
-                                            <div className="text-sm text-gray-600">
-                                                Kills: {player.kills}, Deaths: {player.deaths}, KD:{" "}
-                                                {player.kd}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
+                    <div className="w-full flex justify-between mb-5">
+                        <h2 className={"text-2xl font-bold"}>{match.team1.name}</h2>
+                        <h2 className={"text-2xl font-bold"}>{match.team2.name}</h2>
+                    </div>
+                    <div className="flex justify-between items-center">
+                        <div className="flex gap-4 items-center">
+                            {team1.players.map((player: Player) => (
+                                <div className="flex flex-col items-center " key={player.id}>
+                                    <Avatar size={'lg'} name={player.name} className={"w-[80px] h-[80px]"}/>
+                                    <p>{player.name}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <p className="text-[40px] font-bold">{team1.winRounds} : {team2.winRounds}</p>
+                            <div className="flex flex-col items-center">
+                                <p>1-я полавина</p>
+                                <p>timer</p>
                             </div>
                         </div>
-                        <div className="flex-1">
-                            <h2 className="text-xl font-semibold mb-2">
-                                Team2 - {team2.side}
-                            </h2>
-                            <div className="space-y-2">
-                                {team2.players.map((player) => (
-                                    <div
-                                        key={player.id}
-                                        className="border-b pb-2 flex items-center justify-between"
-                                    >
-                                        <div>
-                                            <span className="font-medium">{player.name}</span>{" "}
-                                            {player.dead && (
-                                                <span className="text-red-500 ml-2">DEAD</span>
-                                            )}
-                                            <div className="text-sm text-gray-600">
-                                                Kills: {player.kills}, Deaths: {player.deaths}, KD:{" "}
-                                                {player.kd}
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                        <div className="flex gap-4 items-center">
+                            {team2.players.map((player: Player) => (
+                                <div className="flex flex-col items-center" key={player.id} >
+                                    <Avatar size={'lg'} name={player.name} className={"w-[80px] h-[80px]"}/>
+                                    <p>{player.name}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
+
+                    <div className="flex flex-col gap-5">
+                        <StatsTable team={team1} />
+                        <div className="">
+                            {match.roundsHistory.join(",")}
+                        </div>
+                        <StatsTable team={team2} />
+                    </div>
+
 
                     {killFeed && killFeed.length > 0 && (
                         <div className="mt-6">
