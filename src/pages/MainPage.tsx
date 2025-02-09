@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import { io, type Socket } from "socket.io-client";
-import type { Match } from "../types/types";
+import {io, type Socket} from "socket.io-client";
+import type {Match, Player} from "../types/types";
 import MyButton from "../components/ui/MyButton";
+import {MAPS} from "../consts/maps";
+import {Avatar} from "@nextui-org/react";
+import {FaAngleRight} from "react-icons/fa";
 
 const MainPage: React.FC = () => {
     const [matches, setMatches] = useState<Match[]>([]);
@@ -26,50 +29,69 @@ const MainPage: React.FC = () => {
         };
     }, []);
 
-    const handleTODetailsClicked = (matchId: string) => {
+    const handleTODetailsClicked = (matchId: number) => {
         navigate(`/match/${matchId}`)
-    }
-
-    const handleCreateMatchClicked = () => {
-        navigate(`/create`)
     }
 
     return (
         <div className="min-h-screen p-6">
-            <h1 className="text-3xl font-bold mb-4">Main Menu  (All Matches)</h1>
+            <h1 className="text-3xl font-bold mb-4">All Matches</h1>
 
-            <MyButton color={"secondary"}
-                      onClick={() => handleCreateMatchClicked()}>
-                Create a New Match
-            </MyButton>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {matches.map((match) => {
-                    const { matchId, mapId } = match;
-                    const team1Score = match.team1.winRounds;
-                    const team2Score = match.team2.winRounds;
+            <div className="flex flex-col gap-3">
+                {matches.map((match: Match) => {
+                    const {matchId, mapId, mode, team1, team2} = match;
 
                     return (
                         <div
                             key={matchId}
-                            className="bg-white shadow-md rounded p-4 flex flex-col justify-between"
+                            className="bg-secondary text-white shadow-md group rounded p-4 flex items-center cursor-pointer border-3 transition border-transparent hover:border-third"
+                            onClick={() => handleTODetailsClicked(matchId)}
                         >
-                            <div>
-                                <h2 className="text-xl font-semibold">
-                                    Match ID: {matchId.slice(0, 8)}...
-                                </h2>
-                                <p className="text-gray-700">Map ID: {mapId}</p>
-                                <p className="text-gray-700">
-                                    Score: {team1Score} : {team2Score}
-                                </p>
-                                <p className="text-gray-700">Round: {match.round}</p>
+                            <div className="w-[120px]">
+                                <img src={`/images/maps/${MAPS[mapId].image}`} className={"object-cover rounded-sm"} alt="Mirage"/>
+                            </div>
+                            <div className="w-full flex items-center justify-around">
+                                <div className="flex flex-col ml-2">
+                                    <h3 className={"text-gray"}>Карта</h3>
+                                    <p className="">{MAPS[mapId].name}</p>
+                                </div>
+                                <div className="flex flex-col ml-2">
+                                    <h3 className={"text-gray"}>Регион</h3>
+                                    <p className="">{"Алматы"}</p>
+                                </div>
+                                <div className="flex flex-col ml-2">
+                                    <h3 className={"text-gray"}>Режим</h3>
+                                    <p className="">{`${mode}v${mode}`}</p>
+                                </div>
+                                <div className="flex flex-col">
+                                    <h3 className={"text-gray"}>Счёт</h3>
+                                    <p className="">{`${team1.winRounds}-${team2.winRounds}`}</p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <div className="">
+                                        <p className={'text-center text-gray font-bold'}>{team1.name}</p>
+                                        <div className="flex gap-2">
+                                            {team1.players.map((player: Player) => (
+                                                <Avatar size={"sm"} name={player.name} key={player.id}/>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    :
+                                    <div className="">
+                                        <p className={'text-center text-gray font-bold'}>{team2.name}</p>
+                                        <div className="flex gap-2">
+                                            {team2.players.map((player: Player) => (
+                                                <Avatar size={"sm"} name={player.name} key={player.id}/>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
 
-                            <MyButton className={"bg-red-500"} color={"primary"} onClick={() => handleTODetailsClicked(matchId)}>
-                                    Go to Details
-                            </MyButton>
-
+                            <div className="relative flex flex-col items-center gap-2">
+                                <FaAngleRight className={"transition-all relative right-1 group-hover:right-0"}/>
+                            </div>
 
                         </div>
                     );

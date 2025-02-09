@@ -14,8 +14,11 @@ module.exports = {
 				'cera': ['"Cera Pro Regular"', 'sans-serif'],
 			},
 			colors: {
-				primary: '#006fee',
-				secondary: '#fafafa',
+				primary: '#c83e2f',
+				secondary: '#1a1a27',
+				third: '#232331',
+				white: '#fafafa',
+				gray: '#888891',
 				black: '#000000',
 			},
 			screens: {

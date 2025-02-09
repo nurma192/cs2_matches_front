@@ -3,6 +3,7 @@ import {Toaster} from "sonner";
 import MainPage from "./pages/MainPage";
 import MatchPage from "./pages/MatchPage";
 import CreateMatchPage from "./pages/CreateMatchPage";
+import Layout from "./pages/Layout/Layout";
 
 
 
@@ -13,9 +14,11 @@ const App = () => {
             v7_relativeSplatPath: true
         }}>
             <Routes>
-                <Route path="/" element={<MainPage />} />
-                <Route path="/match/:id" element={<MatchPage />} />
-                <Route path="/create" element={<CreateMatchPage />} />
+                <Route path="/" element={<Layout/>}>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/match/:id" element={<MatchPage />} />
+                    <Route path="/create" element={<CreateMatchPage />} />
+                </Route>
             </Routes>
             <Toaster richColors/>
         </BrowserRouter>

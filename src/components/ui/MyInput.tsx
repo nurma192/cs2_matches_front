@@ -11,6 +11,7 @@ type Props = {
     required?: boolean;
     patternValue?: RegExp;
     patternErrorMessage?: string;
+    labelPlacement?: "inside" | "outside" | "outside-left"
     maxLength?: number;
     maxLengthErrorMessage?: string;
     minLength?: number;
@@ -20,7 +21,7 @@ type Props = {
     classNames?: any;
 }
 
-const MyInput = ({className, classNames, name, label, placeholder, type, control, required, patternValue, patternErrorMessage = 'Invalid pattern', maxLength, maxLengthErrorMessage = 'Input text exceeds limit', minLength, minLengthErrorMessage='Input the text does`t reach the desired size', endContent, ...props}: Props) => {
+const MyInput = ({className, classNames, name, label, placeholder, type, control, required, patternValue, patternErrorMessage = 'Invalid pattern', maxLength, maxLengthErrorMessage = 'Input text exceeds limit', minLength, minLengthErrorMessage='Input the text does`t reach the desired size', endContent, labelPlacement = "inside", ...props}: Props) => {
     const [rules, setRules] = useState({});
 
     useEffect(()=> {
@@ -74,6 +75,7 @@ const MyInput = ({className, classNames, name, label, placeholder, type, control
             type={type}
             value={field.value}
             name={field.name}
+            labelPlacement={labelPlacement}
             isInvalid={invalid}
             onChange={field.onChange}
             onBlur={field.onBlur}

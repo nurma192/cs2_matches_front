@@ -1,4 +1,4 @@
-import { Map } from "../types";
+import type { Map } from "../types/types";
 
 export const MAPS: Record<number, Map> = {
     1: {
