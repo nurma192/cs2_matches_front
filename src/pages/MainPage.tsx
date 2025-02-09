@@ -1,21 +1,18 @@
 import {useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import type React from "react";
 import {io, type Socket} from "socket.io-client";
-import type {Match, Player} from "../types/types";
-import {MAPS} from "../consts/maps";
-import {Avatar} from "@nextui-org/react";
-import {FaAngleRight} from "react-icons/fa";
+import type {Match} from "../types/types";
+import {FaSpinner} from "react-icons/fa";
 import Container from "../components/Container";
 import {useLazyGetFinishedMatchesQuery} from "../app/features/matches/matchesApi";
-import MatchesCard from "../components/MatchesCard";
 import MatchCard from "../components/MatchesCard";
 
 const MainPage: React.FC = () => {
     const [matches, setMatches] = useState<Match[]>([]);
-    const navigate = useNavigate();
 
-    const [getAllFinishedMatches, {}] = useLazyGetFinishedMatchesQuery()
+    const [getAllFinishedMatches, {isLoading}] = useLazyGetFinishedMatchesQuery()
     const [finishedMatches, setFinishedMatches] = useState<Match[]>([]);
+
 
     useEffect(() => {
         const socket: Socket = io("http://localhost:4000");
@@ -30,15 +27,18 @@ const MainPage: React.FC = () => {
             );
         });
 
-        getAllFinishedMatches().unwrap().then(res => {
-            setFinishedMatches(res)
-        })
+        getAllFinishedMatches().unwrap()
+            .then(res => {
+                setFinishedMatches(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
 
         return () => {
             socket.disconnect();
         };
     }, []);
-
 
 
     return (
@@ -47,7 +47,7 @@ const MainPage: React.FC = () => {
                 {matches.length > 0 && <h1 className="text-3xl font-bold mb-4">All Matches</h1>}
 
                 <div className="flex flex-col gap-3">
-                    {matches.map((match: Match) => {
+                    {matches.reverse().map((match: Match) => {
                         return (
                             <MatchCard match={match} key={match.matchId}/>
                         );
@@ -55,7 +55,10 @@ const MainPage: React.FC = () => {
                 </div>
                 <div className="flex flex-col gap-3 mt-5">
                     {finishedMatches.length > 0 && <h1 className="text-3xl font-bold mb-4">Finished Matches</h1>}
-                    {finishedMatches.map((match: Match) => {
+                    {isLoading && <div className="bg-gray-100 p-6 flex justify-center items-center h-screen">
+		                <FaSpinner className="animate-spin text-4xl text-blue-500"/>
+	                </div>}
+                    {finishedMatches.slice().reverse().map((match: Match) => {
                         return (
                             <MatchCard match={match} key={match.matchId}/>
                         );

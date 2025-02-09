@@ -12,7 +12,7 @@ function RoundsHistory({match}: Props) {
             {match.roundsHistory.map((round) => (
                 <div key={round.round} className={`flex flex-col items-center`}>
                     <div
-                        className={`flex flex-col px-3 border-b-3 ${round.team1Win ? "border-tt" : "border-transparent"}`}
+                        className={`flex flex-col px-4 border-b-3 ${round.team1Win ? "border-tt" : "border-transparent"}`}
                         style={{
                             background: `${round.team1Win ? "linear-gradient(0deg, rgba(187,151,70,0.2) 1%, rgba(0,212,255,0) 100%)" : ""}`,
                         }}
@@ -35,12 +35,12 @@ function RoundsHistory({match}: Props) {
                         </div>
                     }>
                         <div
-                            className="rounded-full flex items-center justify-center w-[25px] h-[25px] my-4 bg-white bg-opacity-40 hover:bg-opacity-100 hover:text-black transition cursor-pointer aspect-square">
+                            className="rounded-full flex items-center justify-center w-[25px] h-[25px] my-4 bg-gray bg-opacity-40 hover:bg-opacity-100 hover:text-black transition cursor-pointer aspect-square">
                             {round.round}
                         </div>
                     </Tooltip>
                     <div
-                        className={`flex flex-col px-3 border-t-3 ${!round.team1Win ? "border-ct" : "border-transparent"}`}
+                        className={`flex flex-col px-4 border-t-3 ${!round.team1Win ? "border-ct" : "border-transparent"}`}
                         style={{
                             background: `${!round.team1Win ? "linear-gradient(180deg, rgba(108,155,201,0.3) 1%, rgba(0,212,255,0) 100%)" : ""}`,
                         }}

@@ -1,6 +1,6 @@
 import {MAPS} from "../consts/maps";
 import type {Match, Player} from "../types/types";
-import {FaAngleRight} from "react-icons/fa";
+import {FaAngleRight, FaTrophy} from "react-icons/fa";
 import { Avatar } from '@nextui-org/react';
 import { useNavigate } from 'react-router-dom';
 import {formatTimeAgo} from "../utils/getData";
@@ -44,9 +44,26 @@ function MatchCard({match}:Params) {
                     <h3 className={"text-gray"}>Счёт</h3>
                     <p className="">{`${team1.winRounds}-${team2.winRounds}`}</p>
                 </div>
-                <div className="hidden items-center justify-center gap-2 w-[350px] xl:flex">
-                    <div className="">
+                <div className="flex flex-col">
+                    <h3 className={"text-gray"}>Команды</h3>
+                    <div className="flex">
+                        <div className="flex items-center gap-1">
+                            {team1.winRounds >= 13 && <FaTrophy fill={"#63b44b"} className={"w-[17px] h-[17px]"}/>}
+                            <p className="font-bold">{team1.name}</p>
+                        </div>
+                        -
+                        <div className="flex items-center gap-1">
+                            <p className="font-bold">{team2.name}</p>
+                            {team2.winRounds >= 13 && <FaTrophy fill={"#63b44b"} className={"w-[17px] h-[17px]"}/>}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="hidden items-center justify-center gap-2 w-[350px]">
+                    <div className="flex flex-col items-center">
+                        <div className="flex items-center gap-2">
                         <p className={'text-center text-gray font-bold'}>{team1.name}</p>
+                        </div>
                         <div className="flex gap-2">
                             {team1.players.map((player: Player) => (
                                 <Avatar size={"sm"} name={player.name} key={player.id}/>
@@ -54,8 +71,10 @@ function MatchCard({match}:Params) {
                         </div>
                     </div>
                     :
-                    <div className="">
-                        <p className={'text-center text-gray font-bold'}>{team2.name}</p>
+                    <div className="flex flex-col items-center">
+                        <div className="flex items-center gap-2">
+                            <p className={'text-center text-gray font-bold'}>{team2.name}</p>
+                        </div>
                         <div className="flex gap-2">
                             {team2.players.map((player: Player) => (
                                 <Avatar size={"sm"} name={player.name} key={player.id}/>
@@ -63,6 +82,7 @@ function MatchCard({match}:Params) {
                         </div>
                     </div>
                 </div>
+
                 <div className="">
                     <p className={'hidden xs:inline text-[10px] md:text-sm'}>{formatTimeAgo(match.createdAt)}</p>
                 </div>

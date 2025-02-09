@@ -1,5 +1,5 @@
 import {api} from "../../api";
-import type {Match} from "../../../types/types";
+import type {CreateMatchParams, Match} from "../../../types/types";
 
 export const matchesApi = api.injectEndpoints({
     endpoints: build => ({
@@ -9,7 +9,14 @@ export const matchesApi = api.injectEndpoints({
                 method: "GET",
             })
         }),
+        createMatches: build.mutation<Match, CreateMatchParams>({
+            query: body => ({
+                url: "matches",
+                method: "POST",
+                body: body
+            })
+        })
     })
 })
 
-export const {useGetFinishedMatchesQuery, useLazyGetFinishedMatchesQuery} = matchesApi
+export const {useGetFinishedMatchesQuery, useLazyGetFinishedMatchesQuery, useCreateMatchesMutation} = matchesApi

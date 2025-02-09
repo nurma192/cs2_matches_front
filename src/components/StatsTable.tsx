@@ -45,7 +45,7 @@ function StatsTable({ team }: Props): JSX.Element {
                             )}
                         </TableCell>
                         <TableCell>
-                            {Math.round((player.headshots / player.kills) * 100)}%
+                            {player.kills !== 0 ? Math.round((player.headshots / player.kills) * 100) : 0}%
                         </TableCell>
                     </TableRow>
                 ))}

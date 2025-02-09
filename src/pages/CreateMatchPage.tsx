@@ -3,10 +3,12 @@ import type {CreateMatchParams, Match} from "../types/types";
 import MyButton from "../components/ui/MyButton";
 import {Select, SelectItem} from "@nextui-org/react";
 import {MAPS} from "../consts/maps";
-import {Controller, type SubmitHandler, useForm } from "react-hook-form";
+import {Controller, type SubmitHandler, useForm} from "react-hook-form";
 import MyInput from "../components/ui/MyInput";
 import Container from "../components/Container";
 import type React from "react";
+import {useCreateMatchesMutation} from "../app/features/matches/matchesApi";
+import MyCircularProgress from "../components/ui/MyCircularProgress";
 
 type CreateMatchForm = {
     mapId: number;
@@ -31,6 +33,7 @@ const CreateMatchPage: React.FC = () => {
         }
     })
     const mode = watch("mode")
+    const [createMatch, {isLoading}] = useCreateMatchesMutation()
 
 
     const handleSubmitForm: SubmitHandler<CreateMatchForm> = async (data) => {
@@ -39,35 +42,20 @@ const CreateMatchPage: React.FC = () => {
             mapId: data.mapId,
             team1: {
                 name: data.team1Name,
-                players: data.team1Players.slice(0,data.mode)
+                players: data.team1Players.slice(0, data.mode)
             },
             team2: {
                 name: data.team2Name,
-                players: data.team2Players.slice(0,data.mode)
+                players: data.team2Players.slice(0, data.mode)
             },
             teamPlayersCount: data.mode,
         };
 
         console.log(body)
-
-
-        try {
-            const response = await fetch("http://localhost:4000/matches", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(body),
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to create match");
-            }
-
-            const createdMatch: Match = await response.json();
-            navigate(`/match/${createdMatch.matchId}`);
-        } catch (error) {
-            console.error("Error:", error);
-            alert("Error creating match");
-        }
+        createMatch(body).unwrap()
+            .then(res => {
+                navigate(`/match/${res.matchId}`);
+            })
     };
 
     const handleBack = () => {
@@ -82,11 +70,10 @@ const CreateMatchPage: React.FC = () => {
 
     const modeItems = Array.from({length: 5}).map((_, i) => (
         {
-            key: i+1,
-            label: `${i+1}v${i+1}`,
+            key: i + 1,
+            label: `${i + 1}v${i + 1}`,
         }
     ));
-
 
 
     return (
@@ -208,9 +195,11 @@ const CreateMatchPage: React.FC = () => {
 
                                 <MyButton
                                     type="submit"
-                                    className="px-10 bg-green-600 bg-opacity-80 text-white rounded hover:bg-green-600"
+                                    color="primary"
+                                    className="px-10 bg-opacity-80 text-white rounded "
+                                    isDisabled={isLoading}
                                 >
-                                    Create
+                                    {!isLoading ? "Create" : <MyCircularProgress size={"sm"} color={"secondary"}/>}
                                 </MyButton>
                             </form>
                         </div>
