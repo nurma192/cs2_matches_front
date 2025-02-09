@@ -44,7 +44,7 @@ function MatchCard({match}:Params) {
                     <h3 className={"text-gray"}>Счёт</h3>
                     <p className="">{`${team1.winRounds}-${team2.winRounds}`}</p>
                 </div>
-                <div className="flex flex-col">
+                <div className="md:flex flex-col hidden">
                     <h3 className={"text-gray"}>Команды</h3>
                     <div className="flex">
                         <div className="flex items-center gap-1">
@@ -59,32 +59,32 @@ function MatchCard({match}:Params) {
                     </div>
                 </div>
 
-                <div className="hidden items-center justify-center gap-2 w-[350px]">
-                    <div className="flex flex-col items-center">
-                        <div className="flex items-center gap-2">
-                        <p className={'text-center text-gray font-bold'}>{team1.name}</p>
-                        </div>
-                        <div className="flex gap-2">
-                            {team1.players.map((player: Player) => (
-                                <Avatar size={"sm"} name={player.name} key={player.id}/>
-                            ))}
-                        </div>
-                    </div>
-                    :
-                    <div className="flex flex-col items-center">
-                        <div className="flex items-center gap-2">
-                            <p className={'text-center text-gray font-bold'}>{team2.name}</p>
-                        </div>
-                        <div className="flex gap-2">
-                            {team2.players.map((player: Player) => (
-                                <Avatar size={"sm"} name={player.name} key={player.id}/>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+                {/*<div className="hidden items-center justify-center gap-2 w-[350px] xl:flex">*/}
+                {/*    <div className="flex flex-col items-center">*/}
+                {/*        <div className="flex items-center gap-2">*/}
+                {/*        <p className={'text-center text-gray font-bold'}>{team1.name}</p>*/}
+                {/*        </div>*/}
+                {/*        <div className="flex gap-2">*/}
+                {/*            {team1.players.map((player: Player) => (*/}
+                {/*                <Avatar size={"sm"} name={player.name} key={player.id}/>*/}
+                {/*            ))}*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*    :*/}
+                {/*    <div className="flex flex-col items-center">*/}
+                {/*        <div className="flex items-center gap-2">*/}
+                {/*            <p className={'text-center text-gray font-bold'}>{team2.name}</p>*/}
+                {/*        </div>*/}
+                {/*        <div className="flex gap-2">*/}
+                {/*            {team2.players.map((player: Player) => (*/}
+                {/*                <Avatar size={"sm"} name={player.name} key={player.id}/>*/}
+                {/*            ))}*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
 
                 <div className="">
-                    <p className={'hidden xs:inline text-[10px] md:text-sm'}>{formatTimeAgo(match.createdAt)}</p>
+                    <p className={'hidden md:inline text-[10px] md:text-sm'}>{formatTimeAgo(match.createdAt)}</p>
                 </div>
             </div>
 

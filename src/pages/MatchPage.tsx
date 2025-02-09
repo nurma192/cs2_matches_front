@@ -114,7 +114,8 @@ const MatchPage: React.FC = () => {
                                         ? match.round < 13
                                             ? "1-я половина"
                                             : "2-я половина"
-                                        : `Winners ${team1.winRounds >= 13 ? team1.name : team2.name}`}
+                                        : `Winners ${team1.winRounds === team2.winRounds ? 'No, Draw' : (team1.winRounds > team2.winRounds ? team1.name : team2.name)}
+`}
                                 </p>
                             </div>
                         </div>

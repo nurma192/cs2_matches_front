@@ -1,27 +1,108 @@
-# vite-template-redux
+# Frontend for CS2 Matches
 
-Uses [Vite](https://vitejs.dev/), [Vitest](https://vitest.dev/), and [React Testing Library](https://github.com/testing-library/react-testing-library) to create a modern [React](https://react.dev/) app compatible with [Create React App](https://create-react-app.dev/)
+Этот проект – фронтенд-приложение для отображения и управления матчами CS2.
+В проекте используются следующие технологии:
 
-```sh
-npx degit reduxjs/redux-templates/packages/vite-template-redux my-app
+- **React** – библиотека для построения пользовательских интерфейсов
+- **Vite** – быстрый сборщик и дев-сервер
+- **Redux Toolkit** и **RTK Query** – для управления состоянием и запросами к API
+- **Socket.IO Client** – для получения обновлений в реальном времени
+- **NextUI** – современная компонентная библиотека для React
+- **React Icons** – набор иконок для улучшения UI
+
+## Функционал
+
+- **Просмотр матчей в реальном времени**
+  Автоматическое получение обновлений матчей через Socket.IO.
+- **Работа с данными через RTK Query**
+  Кэширование и обновление данных матчей, а также обращение к API для создания, получения и фильтрации матчей.
+- **Использование NextUI компонентов**
+  Для создания адаптивного и стильного интерфейса.
+- **Интеграция с Redux**
+  Для управления глобальным состоянием приложения.
+
+## Установка и запуск
+
+### Предварительные требования
+
+- [Node.js](https://nodejs.org/) (рекомендуется версия 14 или выше)
+- npm или yarn
+
+### Клонирование репозитория
+
+   ```bash
+   git clone https://github.com/yourusername/cs2-matches-frontend.git
+   ```
+### Перейдите в директорию проекта:
+
+   ```bash
+   cd cs2-matches-frontend
+   ```
+
+### Установка зависимостей
+#### Установите все зависимости:
+
+   ```bash
+   npm install
+   ```
+
+Или, если используете yarn:
+   ```bash
+   yarn install
+   ```
+
+## Запуск проекта в режиме разработки
+Для запуска проекта в режиме разработки выполните команду:
+
+   ```bash
+   npm run dev
+   ```
+
+После этого **Vite** запустит сервер разработки, и приложение будет доступно по адресу **http://localhost:3000** (порт может отличаться, если указан другой в настройках Vite).
+
+## Сборка проекта для продакшена
+Чтобы собрать оптимизированную сборку для продакшена, выполните:
+
+   ```bash
+   npm run build
+   ```
+
+После сборки можно протестировать приложение с помощью команды:
+   ```bash
+   npm run preview
+   ```
+
+# Структура проекта
+Основные директории проекта:
+
+
+```bash
+    src/ – исходные файлы приложения:
+        app/ – файлы для Redux (store, hooks и т.д.)
+        components/ – переиспользуемые компоненты (например, UI-кнопки, карточки игроков, таблицы статистики, и т.д.)
+        features/ – функциональные модули (например, матчи, чат, статистика)
+        consts/ – константы (например, пути к изображениям, настройки карт и оружия)
+        pages/ – страницы приложения (например, MainPage, MatchPage, CreateMatchPage)
+        services/ – RTK Query endpoints для работы с API
+        styles/ – глобальные стили (например, настройки NextUI, Tailwind CSS, если используется)
+        public/ – статичные файлы (например, изображения, favicon и т.д.)
+        vite.config.ts – конфигурация Vite
 ```
 
-## Goals
+## Использование Socket.IO и RTK Query
+Приложение подключается к backend-серверу по адресу **http://localhost:4000** через **Socket.IO** для получения обновлений матчей в режиме реального времени.
+**RTK Query** используется для выполнения REST-запросов (создание, получение матчей и т.д.) и кэширования данных.
 
-- Easy migration from Create React App or Vite
-- As beginner friendly as Create React App
-- Optimized performance compared to Create React App
-- Customizable without ejecting
+## NextUI и React Icons
+В проекте используются компоненты **NextUI** для построения UI (например, кнопки, селекты, карточки) и React Icons для добавления иконок (например, трофеи, стрелки и т.д.).
+Все компоненты стилизованы с использованием классов **Tailwind CSS** (если настроено) или собственных CSS/SCSS файлов.
 
-## Scripts
+## Дополнительные настройки
+**Redux DevTools** – интегрированы для отладки состояния.
+**RTK Query Caching** – используется для оптимизации запросов к API.
+**Socket.IO** – события matchUpdate обрабатываются через slice matchSlice в Redux.
+Лицензия
+Этот проект лицензирован под MIT License.
 
-- `dev`/`start` - start dev server and open browser
-- `build` - build for production
-- `preview` - locally preview production build
-- `test` - launch test runner
-
-## Inspiration
-
-- [Create React App](https://github.com/facebook/create-react-app/tree/main/packages/cra-template)
-- [Vite](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react)
-- [Vitest](https://github.com/vitest-dev/vitest/tree/main/examples/react-testing-lib)
+Контакты
+Если у вас есть вопросы или предложения, вы можете создать issue в репозитории или связаться со мной по nurma192k@gmail.com
