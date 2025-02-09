@@ -6,8 +6,9 @@ import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {setMatch, updateMatch} from "../store/matchSlice";
 import type {RootState} from "../store/store";
 import Container from "../components/Container";
-import { Avatar } from "@nextui-org/react";
+import {Avatar, Tooltip} from "@nextui-org/react";
 import {StatsTable} from "../components/StatsTable";
+import {WEAPONS} from "../consts/weapons";
 
 const MatchPage: React.FC = () => {
     const {id} = useParams();
@@ -37,6 +38,11 @@ const MatchPage: React.FC = () => {
             socket.disconnect();
         };
     }, [id]);
+    useEffect(() => {
+        if (match) {
+            console.log(match)
+        }
+    }, [match]);
 
     if (!match) {
         return (
@@ -53,6 +59,7 @@ const MatchPage: React.FC = () => {
     }
 
     const {team1, team2, round, timer, mapId, matchId, killFeed} = match;
+
 
     return (
         <Container>
@@ -87,7 +94,7 @@ const MatchPage: React.FC = () => {
                         </div>
                         <div className="flex gap-4 items-center">
                             {team2.players.map((player: Player) => (
-                                <div className="flex flex-col items-center" key={player.id} >
+                                <div className="flex flex-col items-center" key={player.id}>
                                     <Avatar size={'lg'} name={player.name} className={"w-[80px] h-[80px]"}/>
                                     <p>{player.name}</p>
                                 </div>
@@ -96,34 +103,68 @@ const MatchPage: React.FC = () => {
                     </div>
 
                     <div className="flex flex-col gap-5">
-                        <StatsTable team={team1} />
-                        <div className="">
-                            {match.roundsHistory.join(",")}
+                        <StatsTable team={team1}/>
+                        <div className="flex items-center w-full overflow-auto pb-5 gap-1">
+                            {match.roundsHistory.map((round) => (
+                                <div key={round.round} className={`flex flex-col items-center`}>
+                                    <div
+                                        className={`flex flex-col px-3 border-b-3 ${round.team1Win ? "border-tt" : "border-transparent"}`}
+                                        style={{
+                                            background: `${round.team1Win ? "linear-gradient(0deg, rgba(187,151,70,0.2) 1%, rgba(0,212,255,0) 100%)" : ""}`,
+                                        }}
+                                    >
+                                        {round.team1WinRounds}
+                                    </div>
+                                    <Tooltip content={
+                                        <div className={'flex flex-col gap-2 '}>
+                                            {round.killEvents.map((killEvent) => (
+                                                <div
+                                                    className={'flex gap-3 bg-secondary border-2 border-danger justify-between p-2 rounded'}
+                                                    key={killEvent.killerName + killEvent.victimName}>
+                                                    <p className={`${killEvent.killerSide === "CT" ? "text-ct" : "text-tt"} font-bold`}>{killEvent.killerName}</p>
+                                                    <img className={"h-[20px] text-white"}
+                                                         src={`/images/weapons/svg_normal/${WEAPONS[killEvent.weaponId].svgIcon}`}
+                                                         alt={killEvent.weaponId + ""}/>
+                                                    <p className={`${killEvent.victimSide === "CT" ? "text-ct" : "text-tt"} font-bold`}>{killEvent.victimName}</p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    }>
+                                        <div
+                                            className="rounded-full flex items-center justify-center w-[25px] h-[25px] my-4 bg-white bg-opacity-40 hover:bg-opacity-100 hover:text-black transition cursor-pointer aspect-square">
+                                            {round.round}
+                                        </div>
+                                    </Tooltip>
+                                    <div
+                                        className={`flex flex-col px-3 border-t-3 ${!round.team1Win ? "border-ct" : "border-transparent"}`}
+                                        style={{
+                                            background: `${!round.team1Win ? "linear-gradient(180deg, rgba(108,155,201,0.3) 1%, rgba(0,212,255,0) 100%)" : ""}`,
+                                        }}
+                                    >
+                                        {round.team2WinRounds}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                        <StatsTable team={team2} />
+                        <StatsTable team={team2}/>
                     </div>
 
 
                     {killFeed && killFeed.length > 0 && (
                         <div className="mt-6">
-                            <h3 className="text-xl font-semibold">Killfeed</h3>
-                            <div className="bg-gray-50 p-3 rounded mt-2 max-h-64 overflow-auto">
-                                {[...killFeed].reverse().map((kf) => {
-                                    const allPlayers = [...team1.players, ...team2.players];
-                                    const killer = allPlayers.find((p) => p.id === kf.killerId);
-                                    const victim = allPlayers.find((p) => p.id === kf.victimId);
-                                    return (
-                                        <div key={kf.timestamp} className="text-sm my-1">
-                                            <span className="font-medium text-red-500">{killer?.name}</span>{" "}
-                                            killed{" "}
-                                            <span className="font-medium text-blue-600">
-                      {victim?.name}
-                    </span>{" "}
-                                            with weapon {kf.weaponId} at{" "}
-                                            {new Date(kf.timestamp).toLocaleTimeString()}
-                                        </div>
-                                    );
-                                })}
+                            <h3 className="text-xl font-semibold">Last 15 kills:</h3>
+                            <div className="bg-gray-50 flex flex-col gap-2 items-start p-3 rounded mt-2 max-h-80 overflow-auto">
+                                {[...killFeed].reverse().map((killEvent) => (
+                                    <div
+                                        className={'flex gap-3 items-start bg-secondary border-2 border-danger justify-between p-2 rounded'}
+                                        key={killEvent.killerName + killEvent.victimName}>
+                                        <p className={`${killEvent.killerSide === "CT" ? "text-ct" : "text-tt"} font-bold`}>{killEvent.killerName}</p>
+                                        <img className={"h-[20px] text-white"}
+                                             src={`/images/weapons/svg_normal/${WEAPONS[killEvent.weaponId].svgIcon}`}
+                                             alt={killEvent.weaponId + ""}/>
+                                        <p className={`${killEvent.victimSide === "CT" ? "text-ct" : "text-tt"} font-bold`}>{killEvent.victimName}</p>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     )}

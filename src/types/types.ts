@@ -3,11 +3,11 @@ export interface Player {
     name: string;
     kills: number;
     deaths: number;
-    helps: number;
-    kd: number;
+    assists: number;
     dead: boolean;
     weaponId: number;
     moneyCount: number;
+    headshots: number;
 }
 
 export interface Team {
@@ -22,11 +22,20 @@ export interface Match {
     mapId: number;
     timer: number;
     round: number;
-    roundsHistory: number[];
+    roundsHistory: Round[];
     mode: number;
     team1: Team;
     team2: Team;
     killFeed: KillEvent[];
+    finished?: boolean;
+    currentRoundKillEvents: KillEvent[]
+}
+export interface Round {
+    round: number;
+    team1Win: boolean;
+    team1WinRounds: number;
+    team2WinRounds: number;
+    killEvents: KillEvent[];
 }
 
 export interface CreateMatchParams {
@@ -43,10 +52,14 @@ export interface CreateMatchParams {
 }
 
 export interface KillEvent {
-    killerId: string;
-    victimId: string;
+    killerName: string;
+    killerSide: "CT" | "TT"
+    victimName: string;
+    victimSide: "CT" | "TT"
     weaponId: number;
     timestamp: number;
+    headshot?: boolean;
+    assistId?: string;
 }
 
 
@@ -61,3 +74,4 @@ export interface Map {
     name: string;
     image: string;
 }
+

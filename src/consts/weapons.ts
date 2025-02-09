@@ -1,4 +1,4 @@
-import {Weapon} from "../types.ts";
+import type {Weapon} from "../types/types";
 
 export const WEAPONS: Record<number, Weapon> = {
     1: {

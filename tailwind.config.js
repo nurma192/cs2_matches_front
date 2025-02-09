@@ -20,6 +20,8 @@ module.exports = {
 				white: '#fafafa',
 				gray: '#888891',
 				black: '#000000',
+				ct: '#6c9bc9',
+				tt: '#bb9746',
 			},
 			screens: {
 				xs: '480px',

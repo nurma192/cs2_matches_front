@@ -29,6 +29,7 @@ function StatsTable({ team }: Props): JSX.Element {
                 <TableColumn>A</TableColumn>
                 <TableColumn>+/-</TableColumn>
                 <TableColumn>K/D</TableColumn>
+                <TableColumn>HS%</TableColumn>
             </TableHeader>
             <TableBody>
                 {sortedPlayers.map((player) => (
@@ -36,12 +37,15 @@ function StatsTable({ team }: Props): JSX.Element {
                         <TableCell>{player.name}</TableCell>
                         <TableCell>{player.kills}</TableCell>
                         <TableCell>{player.deaths}</TableCell>
-                        <TableCell>{player.helps}</TableCell>
+                        <TableCell>{player.assists}</TableCell>
                         <TableCell>{player.kills - player.deaths}</TableCell>
                         <TableCell>
                             {Number(
                                 (player.deaths === 0 ? player.kills : player.kills / player.deaths).toFixed(2)
                             )}
+                        </TableCell>
+                        <TableCell>
+                            {Math.round((player.headshots / player.kills) * 100)}%
                         </TableCell>
                     </TableRow>
                 ))}
