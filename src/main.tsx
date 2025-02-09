@@ -4,7 +4,8 @@ import App from "./App"
 import "./index.css"
 import {NextUIProvider} from "@nextui-org/react";
 import {ThemeProvider} from "./components/vim-provider";
-import {   } from '@nextui-org/react';
+import { Provider } from "react-redux";
+import {store} from "./store/store"
 
 
 const container = document.getElementById("root")
@@ -14,11 +15,13 @@ if (container) {
 
     root.render(
         <React.StrictMode>
+            <Provider store={store}>
                 <NextUIProvider>
                     <ThemeProvider>
                         <App/>
                     </ThemeProvider>
                 </NextUIProvider>
+            </Provider>
         </React.StrictMode>,
     )
 } else {

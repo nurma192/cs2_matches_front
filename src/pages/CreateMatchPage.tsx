@@ -90,7 +90,7 @@ const CreateMatchPage: React.FC = () => {
 
 
     return (
-        <div className="min-h-screen w-full  bg-gray-100 p-6">
+        <div className="w-full  bg-gray-100 p-6">
             <MyButton onClick={handleBack} className={"rounded-md"}>Back to Main</MyButton>
 
             <div className="w-full flex justify-center">

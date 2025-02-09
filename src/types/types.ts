@@ -18,7 +18,7 @@ export interface Team {
 }
 
 export interface Match {
-    matchId: number;
+    matchId: string;
     mapId: number;
     timer: number;
     round: number;
