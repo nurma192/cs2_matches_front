@@ -28,7 +28,8 @@ export interface Match {
     team2: Team;
     killFeed: KillEvent[];
     finished?: boolean;
-    currentRoundKillEvents: KillEvent[]
+    currentRoundKillEvents: KillEvent[];
+    createdAt: Date;
 }
 export interface Round {
     round: number;

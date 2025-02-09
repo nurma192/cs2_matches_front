@@ -88,7 +88,7 @@ const MatchPage: React.FC = () => {
                         <div className="flex flex-col items-center justify-center">
                             <p className="text-[40px] font-bold">{team1.winRounds} : {team2.winRounds}</p>
                             <div className="flex flex-col items-center">
-                                <p>1-я полавина</p>
+                                <p>{match.round < 13 ? "1-я полавина" : "2-я полавина"}</p>
                                 <p>timer</p>
                             </div>
                         </div>
@@ -120,7 +120,7 @@ const MatchPage: React.FC = () => {
                                             {round.killEvents.map((killEvent) => (
                                                 <div
                                                     className={'flex gap-3 bg-secondary border-2 border-danger justify-between p-2 rounded'}
-                                                    key={killEvent.killerName + killEvent.victimName}>
+                                                    key={killEvent.killerName + killEvent.victimName+killEvent.timestamp}>
                                                     <p className={`${killEvent.killerSide === "CT" ? "text-ct" : "text-tt"} font-bold`}>{killEvent.killerName}</p>
                                                     <img className={"h-[20px] text-white"}
                                                          src={`/images/weapons/svg_normal/${WEAPONS[killEvent.weaponId].svgIcon}`}
@@ -157,7 +157,7 @@ const MatchPage: React.FC = () => {
                                 {[...killFeed].reverse().map((killEvent) => (
                                     <div
                                         className={'flex gap-3 items-start bg-secondary border-2 border-danger justify-between p-2 rounded'}
-                                        key={killEvent.killerName + killEvent.victimName}>
+                                        key={killEvent.killerName + killEvent.victimName + killEvent.timestamp}>
                                         <p className={`${killEvent.killerSide === "CT" ? "text-ct" : "text-tt"} font-bold`}>{killEvent.killerName}</p>
                                         <img className={"h-[20px] text-white"}
                                              src={`/images/weapons/svg_normal/${WEAPONS[killEvent.weaponId].svgIcon}`}

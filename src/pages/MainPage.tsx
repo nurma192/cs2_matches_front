@@ -6,10 +6,16 @@ import {MAPS} from "../consts/maps";
 import {Avatar} from "@nextui-org/react";
 import {FaAngleRight} from "react-icons/fa";
 import Container from "../components/Container";
+import {useLazyGetFinishedMatchesQuery} from "../app/features/matches/matchesApi";
+import MatchesCard from "../components/MatchesCard";
+import MatchCard from "../components/MatchesCard";
 
 const MainPage: React.FC = () => {
     const [matches, setMatches] = useState<Match[]>([]);
     const navigate = useNavigate();
+
+    const [getAllFinishedMatches, {}] = useLazyGetFinishedMatchesQuery()
+    const [finishedMatches, setFinishedMatches] = useState<Match[]>([]);
 
     useEffect(() => {
         const socket: Socket = io("http://localhost:4000");
@@ -24,14 +30,16 @@ const MainPage: React.FC = () => {
             );
         });
 
+        getAllFinishedMatches().unwrap().then(res => {
+            setFinishedMatches(res)
+        })
+
         return () => {
             socket.disconnect();
         };
     }, []);
 
-    const handleTODetailsClicked = (matchId: string) => {
-        navigate(`/match/${matchId}`)
-    }
+
 
     return (
         <Container>
@@ -40,62 +48,15 @@ const MainPage: React.FC = () => {
 
                 <div className="flex flex-col gap-3">
                     {matches.map((match: Match) => {
-                        const {matchId, mapId, mode, team1, team2} = match;
-
                         return (
-                            <div
-                                key={matchId}
-                                className="bg-secondary text-white shadow-md group rounded p-4 flex items-center cursor-pointer border-3 transition border-transparent hover:border-third"
-                                onClick={() => handleTODetailsClicked(matchId)}
-                            >
-                                <div className="w-[120px]">
-                                    <img src={`/images/maps/${MAPS[mapId].image}`} className={"object-cover rounded-sm"}
-                                         alt="Mirage"/>
-                                </div>
-                                <div className="w-full flex items-center justify-around">
-                                    <div className="flex flex-col ml-2">
-                                        <h3 className={"text-gray"}>Карта</h3>
-                                        <p className="">{MAPS[mapId].name}</p>
-                                    </div>
-                                    <div className="flex flex-col ml-2">
-                                        <h3 className={"text-gray"}>Регион</h3>
-                                        <p className="">{"Алматы"}</p>
-                                    </div>
-                                    <div className="flex flex-col ml-2">
-                                        <h3 className={"text-gray"}>Режим</h3>
-                                        <p className="">{`${mode}v${mode}`}</p>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <h3 className={"text-gray"}>Счёт</h3>
-                                        <p className="">{`${team1.winRounds}-${team2.winRounds}`}</p>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <div className="">
-                                            <p className={'text-center text-gray font-bold'}>{team1.name}</p>
-                                            <div className="flex gap-2">
-                                                {team1.players.map((player: Player) => (
-                                                    <Avatar size={"sm"} name={player.name} key={player.id}/>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        :
-                                        <div className="">
-                                            <p className={'text-center text-gray font-bold'}>{team2.name}</p>
-                                            <div className="flex gap-2">
-                                                {team2.players.map((player: Player) => (
-                                                    <Avatar size={"sm"} name={player.name} key={player.id}/>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div className="relative flex flex-col items-center gap-2">
-                                    <FaAngleRight className={"transition-all relative right-1 group-hover:right-0"}/>
-                                </div>
-
-                            </div>
+                            <MatchCard match={match}/>
+                        );
+                    })}
+                </div>
+                <div className="flex flex-col gap-3">
+                    {finishedMatches.map((match: Match) => {
+                        return (
+                            <MatchCard match={match}/>
                         );
                     })}
                 </div>

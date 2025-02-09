@@ -5,6 +5,10 @@ import MatchPage from "./pages/MatchPage";
 import CreateMatchPage from "./pages/CreateMatchPage";
 import Layout from "./pages/Layout/Layout";
 
+//todo add RTK Query or ReactQuery
+//todo add toast
+//todo add kogda bylo match zapushen
+//todo add skolko vremenu dlitsiya uzhe match
 
 
 const App = () => {
