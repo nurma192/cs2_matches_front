@@ -71,6 +71,13 @@
    ```bash
    npm run preview
    ```
+<img width="982" alt="Снимок экрана 2025-02-10 в 10 33 39" src="https://github.com/user-attachments/assets/db74a9d1-f71b-4c47-a43d-0e28316d55fa" />
+<img width="982" alt="Снимок экрана 2025-02-09 в 23 28 17" src="https://github.com/user-attachments/assets/91cc42e6-c14c-455b-9c85-3ec8d953c2fa" />
+<img width="982" alt="Снимок экрана 2025-02-09 в 23 27 43" src="https://github.com/user-attachments/assets/a9edad6e-6515-42d1-9ded-543f75c6fa97" />
+<img width="982" alt="Снимок экрана 2025-02-10 в 10 33 14" src="https://github.com/user-attachments/assets/9546dd82-2feb-4ee9-82e0-082240d5d9e4" />
+<img width="982" alt="Снимок экрана 2025-02-10 в 10 33 23" src="https://github.com/user-attachments/assets/671719b3-4f28-4916-87ba-a42d9fe3957a" />
+
+
 
 # Структура проекта
 Основные директории проекта:
